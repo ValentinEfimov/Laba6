@@ -52,7 +52,7 @@ public class MainFrame extends JFrame {
         menuBar.add(magnetism);
         Action magnetismOFFAction = new AbstractAction("Выключить") {
             public void actionPerformed(ActionEvent event) {
-                //TODO
+
                 field.magnetismOFF();
                 magnetismOFFMenuItem.setEnabled(false);
                 magnetismONMenuItem.setEnabled(true);
@@ -63,14 +63,14 @@ public class MainFrame extends JFrame {
 
         Action magnetismONAction = new AbstractAction("Включить") {
             public void actionPerformed(ActionEvent event) {
-                //TODO
+
                 field.magnetismON();
                 magnetismOFFMenuItem.setEnabled(true);
                 magnetismONMenuItem.setEnabled(false);
             }
         };
         magnetismONMenuItem = magnetism.add(magnetismONAction);
-        magnetismONMenuItem.setEnabled(false);
+        magnetismONMenuItem.setEnabled(true);
 
         JMenu controlMenu = new JMenu("Управление");
         menuBar.add(controlMenu);

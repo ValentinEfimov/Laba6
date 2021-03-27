@@ -63,6 +63,7 @@ public class BouncingBall implements Runnable {
 // Если движение разрешено - управление будет
 // возвращено в метод
 // В противном случае - активный поток заснѐт
+// Если магнетизм включен, то при касание стен выполнится wait для потока через ф-цию canMagnetism()
                 field.canMove(this);
                 if (field.isMagnetismON(this)) {
                     if (x + speedX <= radius) {
