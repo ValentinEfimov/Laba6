@@ -12,6 +12,7 @@ import javax.swing.Timer;
 public class Field extends JPanel {
     // Флаг приостановленности движения
     private boolean paused;
+    private boolean magnetism;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
     // Класс таймер отвечает за регулярную генерацию событий ActionEvent
@@ -61,6 +62,18 @@ public class Field extends JPanel {
 // Будим все ожидающие продолжения потоки
         notifyAll();
     }
+    public synchronized void magnetismON() {
+// Включить режим паузы
+        magnetism = true;
+    }
+    // Метод синхронизированный, т.е. только один поток может
+// одновременно быть внутри
+    public synchronized void magnetismOFF() {
+// Выключить режим паузы
+        magnetism = false;
+// Будим все ожидающие продолжения потоки
+        notifyAll();
+    }
     // Синхронизированный метод проверки, может ли мяч двигаться
 // (не включен ли режим паузы?)
     public synchronized void canMove(BouncingBall ball) throws
@@ -70,5 +83,20 @@ public class Field extends JPanel {
 // внутрь данного метода, засыпает
             wait();
         }
+    }
+    public synchronized void canMagnetism(BouncingBall ball) throws
+            InterruptedException {
+        if (magnetism) {
+// Если режим паузы включен, то поток, зашедший
+// внутрь данного метода, засыпает
+            wait();
+        }
+    }
+    public synchronized boolean isMagnetismON(BouncingBall ball) throws
+            InterruptedException {
+        boolean temp = false;
+        if (magnetism) { temp = true;
+        }
+        return temp;
     }
 }

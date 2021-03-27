@@ -64,35 +64,49 @@ public class BouncingBall implements Runnable {
 // возвращено в метод
 // В противном случае - активный поток заснѐт
                 field.canMove(this);
-                if (x + speedX <= radius) {
-// Достигли левой стенки, отскакиваем право
-                    speedX = -speedX;
-                    x = radius;
-                } else
-                if (x + speedX >= field.getWidth() - radius) {
-// Достигли правой стенки, отскок влево
-                    speedX = -speedX;
-                    x=new Double(field.getWidth()-radius).intValue();
-                } else
-                if (y + speedY <= radius) {
-// Достигли верхней стенки
-                    speedY = -speedY;
-                    y = radius;
-                } else
-                if (y + speedY >= field.getHeight() - radius) {
-// Достигли нижней стенки
-                    speedY = -speedY;
-                    y=new Double(field.getHeight()-radius).intValue();
+                if (field.isMagnetismON(this)) {
+                    if (x + speedX <= radius) {
+                        field.canMagnetism(this);
+                    } else if (x + speedX >= field.getWidth() - radius) {
+                        field.canMagnetism(this);
+                    } else if (y + speedY <= radius) {
+                        field.canMagnetism(this);
+                    } else if (y + speedY >= field.getHeight() - radius) {
+                        field.canMagnetism(this);
+                    } else {
+                        x += speedX;
+                        y += speedY;
+                    }
+                    Thread.sleep(16 - speed);
+
                 } else {
+                    if (x + speedX <= radius) {
+// Достигли левой стенки, отскакиваем право
+                        speedX = -speedX;
+                        x = radius;
+                    } else if (x + speedX >= field.getWidth() - radius) {
+// Достигли правой стенки, отскок влево
+                        speedX = -speedX;
+                        x = new Double(field.getWidth() - radius).intValue();
+                    } else if (y + speedY <= radius) {
+// Достигли верхней стенки
+                        speedY = -speedY;
+                        y = radius;
+                    } else if (y + speedY >= field.getHeight() - radius) {
+// Достигли нижней стенки
+                        speedY = -speedY;
+                        y = new Double(field.getHeight() - radius).intValue();
+                    } else {
 // Просто смещаемся
-                    x += speedX;
-                    y += speedY;
-                }
+                        x += speedX;
+                        y += speedY;
+                    }
 // Засыпаем на X миллисекунд, где X определяется
 // исходя из скорости
 // Скорость = 1 (медленно), засыпаем на 15 мс.
 // Скорость = 15 (быстро), засыпаем на 1 мс.
-                Thread.sleep(16-speed);
+                    Thread.sleep(16 - speed);
+                }
             }
         } catch (InterruptedException ex) {
 // Если нас прервали, то ничего не делаем

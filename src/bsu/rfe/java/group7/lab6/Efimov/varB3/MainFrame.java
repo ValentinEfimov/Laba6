@@ -3,12 +3,7 @@ package bsu.rfe.java.group7.lab6.Efimov.varB3;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 
@@ -20,6 +15,8 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 500;
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
+    private JMenuItem magnetismOFFMenuItem;
+    private JMenuItem magnetismONMenuItem;
     // Поле, по которому прыгают мячи
     private Field field = new Field();
 
@@ -44,11 +41,37 @@ public class MainFrame extends JFrame {
 // Ни один из пунктов меню не являются
 // доступными - сделать доступным "Паузу"
                     pauseMenuItem.setEnabled(true);
+                    magnetismOFFMenuItem.setEnabled(true);
                 }
             }
         };
         menuBar.add(ballMenu);
         ballMenu.add(addBallAction);
+
+        JMenu magnetism = new JMenu("Магнетизм");
+        menuBar.add(magnetism);
+        Action magnetismOFFAction = new AbstractAction("Выключить") {
+            public void actionPerformed(ActionEvent event) {
+                //TODO
+                field.magnetismOFF();
+                magnetismOFFMenuItem.setEnabled(false);
+                magnetismONMenuItem.setEnabled(true);
+            }
+        };
+        magnetismOFFMenuItem = magnetism.add(magnetismOFFAction);
+        magnetismOFFMenuItem.setEnabled(false);
+
+        Action magnetismONAction = new AbstractAction("Включить") {
+            public void actionPerformed(ActionEvent event) {
+                //TODO
+                field.magnetismON();
+                magnetismOFFMenuItem.setEnabled(true);
+                magnetismONMenuItem.setEnabled(false);
+            }
+        };
+        magnetismONMenuItem = magnetism.add(magnetismONAction);
+        magnetismONMenuItem.setEnabled(false);
+
         JMenu controlMenu = new JMenu("Управление");
         menuBar.add(controlMenu);
         Action pauseAction = new AbstractAction("Приостановить движение") {
